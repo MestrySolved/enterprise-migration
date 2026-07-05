@@ -152,8 +152,8 @@ out.
 
 ## License
 
-Copyright © 2026 Anushka Mestry. All rights reserved.
-
-This repository is public for viewing and demonstration purposes only. No
-permission is granted to use, copy, modify, or distribute this code without
-explicit written permission from the author.
+Copyright © 2026 Anushka Mestry.
+This project is shared for learning, demonstration, and collaboration.
+Feel free to fork, experiment, or build on it — if you're taking it toward
+something enterprise-scale or commercial, I'd appreciate a heads-up and
+credit.
