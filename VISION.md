@@ -1,154 +1,73 @@
-# Project Catalyst v1
-## AI-Assisted Enterprise Cloud Migration Assessment Platform
+# Vision
 
-### Vision
+## The problem
 
-Project Catalyst v1 is an AI-assisted cloud migration assessment platform designed to help cloud architects and platform engineering teams analyze enterprise workloads before migration activities begin.
+Cloud migration assessment work — figuring out what an organization's
+applications depend on, deciding a migration strategy for each one (the 7Rs:
+Rehost, Replatform, Refactor, Repurchase, Retire, Retain, Relocate), sizing
+the target infrastructure, and flagging security/compliance needs — is
+repeatable, structured work that currently gets redone manually, from
+scratch, for every engagement. It's exactly the kind of documentation and
+solution-design work that eats time under deadline pressure (e.g. in a
+presales scoping exercise) despite following the same underlying logic each
+time.
 
-The platform accepts technical and business information about existing applications, infrastructure, and operational requirements. It automatically discovers application dependencies, evaluates infrastructure characteristics, analyzes business constraints, and recommends an appropriate cloud migration strategy using industry-standard migration frameworks such as the 7Rs (Rehost, Replatform, Refactor, Repurchase, Retire, Retain, Relocate).
+## What this tool does
 
-Rather than performing migrations automatically, Project Catalyst v1 focuses on solving the most critical challenge in enterprise cloud transformation: determining what should be migrated, how it should be migrated, and why.
+**Input:** a description of an organization's applications/systems — either
+typed in interactively (dynamic input) or provided as a structured file
+(static input) — including each system's dependencies, criticality,
+operating system, resource needs (CPU/memory/storage), internet exposure,
+compliance requirements, and workload type.
 
-The system produces an architect-friendly migration assessment report containing dependency analysis, workload classifications, migration recommendations, risk assessments, modernization opportunities, and rationale for each architectural decision. These outputs serve as inputs for cloud architects, platform engineers, and migration teams to design and execute cloud transformation programs.
+**Process:** the tool builds a dependency graph, applies rule-based 7R
+migration logic, layers a local AI model's critique on top of that
+recommendation, determines an appropriate hosting model (VM / Kubernetes /
+SaaS) and machine size, flags security and compliance considerations, and
+maps each recommendation to the specific GCP migration tool and pricing
+calculator needed next.
 
----
+**Output:** a complete, per-system migration plan — not just a
+classification, but the practical next steps and tools someone would
+actually need to price and execute the migration.
 
-## Input
+## Why it's built this way
 
-The user provides:
+- **Rule-based logic first, AI second** — the rules give a transparent,
+  explainable baseline; the AI model's job is to critique and refine that
+  baseline, not replace it. This keeps the reasoning auditable rather than
+  being a black box.
+- **Local AI (Ollama), not a paid API** — removes cost as a barrier to
+  building and demonstrating this, and keeps data fully on-device, which
+  matters for any real inventory data that shouldn't leave a company's
+  network.
+- **GCP-only, on purpose** — going deep on one provider's actual tools and
+  pricing model produces a more useful, concrete output than a shallow
+  multi-cloud abstraction would at this stage.
 
-### Technical Inputs
-- Application inventory
-- Service names and descriptions
-- Deployment manifests (YAML)
-- Infrastructure configurations
-- Network topology
-- Existing Kubernetes manifests
-- Cloud Asset Inventory data
-- IAM policies
-- Database dependencies
-- External service integrations
-- Monitoring and observability data
-- Existing CI/CD configurations
+## What this is not (yet)
 
-### Business Inputs
-- Business criticality
-- Availability requirements
-- Recovery objectives
-- Security and compliance requirements
-- Budget constraints
-- Migration timelines
-- Modernization objectives
-- Technical debt considerations
-- Operational ownership information
+This is a working prototype built to demonstrate the concept and the
+underlying thinking — not a production-grade or enterprise-scale tool. It
+does not currently:
 
----
+- Scan live cloud environments automatically (input is manual/interactive)
+- Support multiple cloud providers
+- Pull real-time pricing data
+- Provide a graphical interface
 
-## Processing
+## Where it could go next
 
-Project Catalyst v1 performs the following activities:
+- **Live discovery** — connect to GCP's Asset Inventory or similar APIs to
+  build the dependency graph automatically instead of requiring manual input
+- **Multi-cloud** — extend the tool-mapping layer to AWS and Azure
+  equivalents
+- **Confidence scoring** — have the AI layer flag how confident it is in a
+  recommendation, and surface disagreements between the rule-based and AI
+  layers explicitly rather than just printing both
+- **A real interface** — a simple web UI instead of CLI output, so the tool
+  could be used in a live client conversation rather than a terminal
 
-### 1. Discovery & Dependency Assessment
-- Discovers applications and infrastructure components.
-- Builds dependency graphs between services, databases, networks, and external systems.
-- Identifies shared infrastructure and operational constraints.
-- Determines workload criticality and migration complexity.
-
-### 2. Migration Assessment
-- Evaluates technical readiness for migration.
-- Assesses operational risk.
-- Identifies modernization opportunities.
-- Calculates migration complexity and confidence scores.
-
-### 3. 7R Strategy Recommendation
-For each workload, the system determines whether it should be:
-
-- Rehost
-- Replatform
-- Refactor
-- Repurchase
-- Retire
-- Retain
-- Relocate
-
-The recommendation is based on:
-- Technical dependencies
-- Business priorities
-- Cost considerations
-- Security requirements
-- Operational constraints
-- Modernization objectives
-
-### 4. Architecture Recommendation
-The platform recommends:
-- Target cloud services
-- Migration approaches
-- Deployment patterns
-- High availability strategies
-- Security architectures
-- Platform modernization opportunities
-
----
-
-## Output
-
-Project Catalyst v1 generates:
-
-### Dependency Analysis Report
-- Service dependency graph
-- Database relationships
-- Network dependencies
-- Security dependencies
-- Operational dependencies
-
-### Migration Strategy Report
-For every workload:
-
-Example:
-
-Application:
-payments-api
-
-Recommended Strategy:
-REPLATFORM
-
-Confidence:
-87%
-
-Rationale:
-- Already containerized
-- Minimal application changes required
-- High availability requirements
-- Suitable for managed Kubernetes deployment
-
-Estimated Migration Effort:
-Medium
-
-Estimated Risk:
-Low
-
-Recommended Target Platform:
-Google Kubernetes Engine (GKE)
-
-### Executive Migration Summary
-- Migration roadmap
-- Estimated complexity
-- Risk assessment
-- Modernization opportunities
-- Cost optimization recommendations
-- Migration sequencing recommendations
-
----
-
-## Explicit Non-Goals for v1
-
-Project Catalyst v1 does NOT:
-
-- Automatically deploy workloads
-- Automatically modify application source code
-- Automatically execute cloud migrations
-- Automatically remediate production failures
-- Replace cloud architects or migration engineers
-- Perform autonomous infrastructure operations
-
-These capabilities may be explored in future versions.
+This document is meant to stay a short, honest description of what the
+project actually does today — it should be updated as the tool grows, not
+left as an aspirational wishlist that drifts from reality.
