@@ -1,0 +1,112 @@
+{
+  "systems": [
+    {
+      "name": "mobile-app",
+      "depends_on": ["api-gateway"],
+      "criticality": "high",
+      "os": "N/A",
+      "cpu_cores": 2,
+      "memory_gb": 4,
+      "storage_gb": 20,
+      "internet_facing": true,
+      "compliance": [],
+      "workload_type": "stateless"
+    },
+    {
+      "name": "web-frontend",
+      "depends_on": ["api-gateway"],
+      "criticality": "high",
+      "os": "N/A",
+      "cpu_cores": 2,
+      "memory_gb": 4,
+      "storage_gb": 20,
+      "internet_facing": true,
+      "compliance": [],
+      "workload_type": "stateless"
+    },
+    {
+      "name": "api-gateway",
+      "depends_on": ["auth-service", "orders-service"],
+      "criticality": "high",
+      "os": "Ubuntu 22.04",
+      "cpu_cores": 4,
+      "memory_gb": 16,
+      "storage_gb": 50,
+      "internet_facing": true,
+      "compliance": ["PCI-DSS"],
+      "workload_type": "stateless"
+    },
+    {
+      "name": "auth-service",
+      "depends_on": ["users-db"],
+      "criticality": "high",
+      "os": "Ubuntu 22.04",
+      "cpu_cores": 4,
+      "memory_gb": 8,
+      "storage_gb": 30,
+      "internet_facing": false,
+      "compliance": ["PCI-DSS"],
+      "workload_type": "stateless"
+    },
+    {
+      "name": "orders-service",
+      "depends_on": ["orders-db", "auth-service"],
+      "criticality": "high",
+      "os": "Ubuntu 22.04",
+      "cpu_cores": 4,
+      "memory_gb": 8,
+      "storage_gb": 30,
+      "internet_facing": false,
+      "compliance": ["PCI-DSS"],
+      "workload_type": "stateless"
+    },
+    {
+      "name": "users-db",
+      "depends_on": [],
+      "criticality": "high",
+      "os": "N/A",
+      "cpu_cores": 4,
+      "memory_gb": 16,
+      "storage_gb": 200,
+      "internet_facing": false,
+      "compliance": ["PCI-DSS"],
+      "workload_type": "stateful"
+    },
+    {
+      "name": "orders-db",
+      "depends_on": [],
+      "criticality": "high",
+      "os": "N/A",
+      "cpu_cores": 4,
+      "memory_gb": 16,
+      "storage_gb": 300,
+      "internet_facing": false,
+      "compliance": ["PCI-DSS"],
+      "workload_type": "stateful"
+    },
+    {
+      "name": "legacy-batch-job",
+      "depends_on": ["orders-db"],
+      "criticality": "low",
+      "os": "Windows Server 2008 R2",
+      "cpu_cores": 2,
+      "memory_gb": 8,
+      "storage_gb": 100,
+      "internet_facing": false,
+      "compliance": [],
+      "workload_type": "stateful"
+    },
+    {
+      "name": "old-marketing-site",
+      "depends_on": [],
+      "criticality": "low",
+      "os": "N/A",
+      "cpu_cores": 1,
+      "memory_gb": 2,
+      "storage_gb": 10,
+      "internet_facing": true,
+      "compliance": [],
+      "workload_type": "commodity"
+    }
+  ]
+}
