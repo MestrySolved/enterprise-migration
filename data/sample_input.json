@@ -1,0 +1,8 @@
+{
+  "systems": [
+    {"name": "web-frontend", "depends_on": ["api-backend"], "criticality": "high"},
+    {"name": "api-backend", "depends_on": ["orders-db"], "criticality": "high"},
+    {"name": "orders-db", "depends_on": [], "criticality": "high"},
+    {"name": "internal-reporting-tool", "depends_on": ["orders-db"], "criticality": "low"}
+  ]
+}
